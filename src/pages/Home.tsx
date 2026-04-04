@@ -49,22 +49,49 @@ const Home = () => {
   const contactRef = useScrollAnimation();
 
   const achievements = [
-    { image: '/achieve.jpeg',       title: 'Academic Excellence',  description: '98% pass rate with distinction in board examinations' },
-    { image: '/achieve1.jpeg',    description: 'State-level winners in basketball and athletics' },
-    { image: '/achieve2.jpeg',     title: 'Science Fair Winners', description: 'National recognition in innovation and research' },
-    { image: '/achieve3.jpeg',     title: 'Board Results',        description: 'Top 10 school in the region for 5 consecutive years' },
-    { image: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800',     title: 'Leadership Program',   description: "Develop tomorrow's leaders" },
-    { image: 'https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=800',     title: 'Community Impact',     description: 'Social responsibility initiatives' },
+    { image: '/ach2.jpeg',        title: 'Academic Excellence',  description: '98% pass rate with distinction in board examinations' },
+    { image: '/achieve1.jpeg',    title: 'Science Fair Winners',  description: 'State-level winners in basketball and athletics' },
+    { image: '/achieve2.jpeg',    title: 'Science Fair Winners', description: 'National recognition in innovation and research' },
+    { image: '/achieve3.jpeg',    title: 'Board Results',        description: 'Top 10 school in the region for 5 consecutive years' },
+    { image: '/ach1.jpeg',        title: 'Leadership Program',   description: "Develop tomorrow's leaders" },
+    { image: '/achieve.jpeg',     title: 'Community Impact',     description: 'Social responsibility initiatives' },
   ];
 
-  const activities = [
+  const activitiesRow1 = [
     { image: '/activity.jpeg',  title: 'Sports & Athletics',   description: 'State-of-the-art facilities for various sports' },
     { image: '/activity2.jpeg',                       title: 'Science Labs',         description: 'Modern laboratories for hands-on learning' },
     { image: '/activity3.jpeg',                     title: 'Cultural Events',      description: 'Annual festivals and talent showcases' },
     { image: '/activity4.jpeg',                     title: 'Community Service',    description: 'Regular outreach and social initiatives' },
-    { image: 'https://images.pexels.com/photos/5582863/pexels-photo-5582863.jpeg?auto=compress&cs=tinysrgb&w=800',                     title: 'Art & Creativity',     description: 'Express yourself through art' },
-    { image: 'https://images.pexels.com/photos/3808517/pexels-photo-3808517.jpeg?auto=compress&cs=tinysrgb&w=800',                     title: 'Music & Performances', description: 'Showcase your talents' },
+    { image: '/act1.jpeg',                     title: 'Art & Creativity',     description: 'Express yourself through art' },
+    { image: '/act2.jpeg',                     title: 'Music & Performances', description: 'Showcase your talents' },
+    { image: '/act20.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/act21.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/act22.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/act23.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/act24.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/act25.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
   ];
+
+  const activitiesRow2 = [
+  { image: '/act3.jpeg', title: 'Library',       description: 'Well-stocked reading space for curious minds' },
+  { image: '/act4.jpeg', title: 'Computer Lab',  description: 'Modern tech infrastructure for digital learning' },
+  { image: '/act5.jpeg', title: 'Dance & Drama', description: 'Stage performances and creative expression' },
+  { image: '/act6.jpeg', title: 'Yoga & Wellness', description: 'Mind and body balance programs' },
+  { image: '/act7.jpeg',  title: 'Reading Club',   description: 'Fostering a love for books and literature' },
+  { image: '/act8.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act9.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act10.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act11.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act12.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act13.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act14.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act15.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act16.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act16.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act17.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act18.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+  { image: '/act19.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+];
 
   const admissionSteps = [
     { number: '01', title: 'Application Form',        description: 'Fill out the online admission form with required details',    icon: BookOpen },
@@ -339,6 +366,7 @@ const Home = () => {
                       </div>
                       <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm"></div>
                     </div>
+                    
                   ))}
                 </div>
               </div>
@@ -366,8 +394,8 @@ const Home = () => {
                 <div className="grow-line h-1 bg-red-600 rounded-full mt-2"></div>
               </div>
               <div className="overflow-hidden">
-                <div className="scroll-right py-4" style={{ gap: '1.5rem' }}>
-                  {[...activities, ...activities].map((activity, index) => (
+                <div className="scroll-right py-4" style={{ gap: '1.5rem', animationDuration: '56s' }}>
+                 {[...activitiesRow1, ...activitiesRow1].map((activity, index) => (
                     <div
                       key={index}
                       className="card-hover w-[260px] flex-shrink-0 group relative overflow-hidden rounded-2xl border-2 border-red-100 hover:border-red-300 hover:shadow-lg hover:shadow-red-50"
@@ -391,6 +419,32 @@ const Home = () => {
                   ))}
                 </div>
               </div>
+              <div className="overflow-hidden mt-3">
+  <div className="scroll-left py-4" style={{ gap: '1.5rem', animationDuration: '84s' }}>
+    {[...activitiesRow2, ...activitiesRow2].map((activity, index) => (
+      <div
+        key={index}
+        className="card-hover w-[260px] flex-shrink-0 group relative overflow-hidden rounded-2xl border-2 border-orange-100 hover:border-red-300 hover:shadow-lg hover:shadow-orange-50"
+        style={{ marginRight: '1.5rem' }}
+      >
+        <div className="h-[180px] overflow-hidden">
+          <img
+            src={activity.image}
+            alt={activity.title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-800/10 to-transparent flex items-end p-5">
+          <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+            <h3 className="text-base font-bold text-white mb-1">{activity.title}</h3>
+            <p className="text-xs text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">{activity.description}</p>
+          </div>
+        </div>
+        <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm"></div>
+      </div>
+    ))}
+  </div>
+</div>
             </div>
           </section>
 
