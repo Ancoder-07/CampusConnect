@@ -289,7 +289,7 @@ const Admission = () => {
               <div className="scroll-zoom animate-in-view relative">
                 <div className="absolute -inset-4 bg-red-100 rounded-2xl transform rotate-3 -z-10"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1577896851231-70ef1460370e?auto=format&fit=crop&q=80&w=800"
+                  src="/act3.jpeg"
                   alt="Students"
                   className="rounded-2xl shadow-2xl border-4 border-white object-cover h-80 w-full"
                 />
