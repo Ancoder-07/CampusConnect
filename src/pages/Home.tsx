@@ -210,11 +210,13 @@ const Home = () => {
             <div className="float-b absolute bottom-32 right-16 w-48 h-48 rounded-full bg-red-300/10 blur-2xl pointer-events-none"></div>
             <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
               <h1 className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-                Welcome to Manpadale Highschool
+                Welcome to Manpadle Highschool, Manpadle
               </h1>
-              <p className="hero-sub text-xl md:text-2xl mb-8 text-red-100">
-                Nurturing Minds, Building Futures
-              </p>
+<p className="hero-sub text-xl md:text-2xl mb-8 text-red-100">
+  <b>न हि ज्ञानेन सदृशं पवित्रमिह विद्यते।</b> <br />
+  <b>Our goal is to nurture students into cultured, value-driven, and exemplary personalities.</b>
+</p>
+
               <div className="hero-btns flex flex-col sm:flex-row gap-4 justify-center">
                 <Button onClick={() => navigate('/admission')}>
                   Apply for Admission
@@ -247,11 +249,10 @@ const Home = () => {
                   </span>
                 </div>
                 <h2 className="relative text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  About Manpadale Highschool
+                  About Manpadle Highschool
                 </h2>
                 <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  Our school is a community-driven educational institute in the rural, mountainous region of Manpadale. We focus on holistic development — intellectual, physical, emotional, moral, and social growth of every student.
-                </p>
+                  Welcome to <b>Manpadle Highschool</b> — a place where every child is known, cared for, and encouraged to do their best. Manpadale Highschool was started to give good education to children  in our village and nearby areas. Our school runs from Class 5 to 10  and is managed by <b>Late Buvasaheb Patil Shikshan Prasarak Mandal</b>,  Manpadale and awarded with the <b>Dalit Mitra Puraskar</b>. We believe every child deserves a chance to study. That is why we  provide <b>free admission</b>, <b>free uniform</b>, and <b>free books</b> to all students.  Our teachers work hard every day to help each child grow and succeed. here change the starting</p>
                 <div className="grow-line h-0.5 bg-red-200 mx-auto mb-8 rounded-full"></div>
                 <Button onClick={() => navigate('/about')} variant="outline">
                   Know More About Us
@@ -355,7 +356,7 @@ const Home = () => {
                         <img
                           src={achievement.image}
                           alt={achievement.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                          className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-1000"
                         />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-800/75 via-gray-800/10 to-transparent flex items-end p-5">
@@ -405,7 +406,7 @@ const Home = () => {
                         <img
                           src={activity.image}
                           alt={activity.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                          className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-1000"
                         />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-800/75 via-gray-800/10 to-transparent flex items-end p-5">
