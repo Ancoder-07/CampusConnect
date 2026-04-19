@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { GraduationCap, Mail, Phone, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   const scrollToSection = (id: string) => {
     if (window.location.pathname !== '/') {
       window.location.href = `/#${id}`;
@@ -23,34 +26,33 @@ const Footer = () => {
                 <GraduationCap className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg">Manpadale Highschool</h3>
-                <p className="text-xs text-gray-400">Excellence in Education</p>
+                <h3 className="text-white font-bold text-lg">{t('footer.school_name')}</h3>
+                <p className="text-xs text-gray-400">{t('footer.excellence')}</p>
               </div>
             </div>
             <p className="text-sm mb-4">
-              A educational institute nurturing minds and building futures where every child is known and encouraged to do their best.
+              {t('footer.about_text')}
             </p>
           </div>
 
           <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
-            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-white font-semibold mb-4">{t('footer.quick_links')}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/" className="hover:text-red-400 transition-colors">Home</Link></li>
-              <li><Link to="/about" className="hover:text-red-400 transition-colors">About</Link></li>
-              <li><button onClick={() => scrollToSection('achievements')} className="hover:text-red-400 transition-colors">Achievements</button></li>
-              <li><button onClick={() => scrollToSection('activities')} className="hover:text-red-400 transition-colors">Activities</button></li>
-              <li><Link to="/admission" className="hover:text-red-400 transition-colors">Admission</Link></li>
-              <li><Link to="/donate" className="hover:text-red-400 transition-colors">Donate</Link></li>
+              <li><Link to="/" className="hover:text-red-400 transition-colors">{t('navbar.home')}</Link></li>
+              <li><Link to="/about" className="hover:text-red-400 transition-colors">{t('navbar.about')}</Link></li>
+              <li><button onClick={() => scrollToSection('achievements')} className="hover:text-red-400 transition-colors">{t('navbar.achievements')}</button></li>
+              <li><button onClick={() => scrollToSection('activities')} className="hover:text-red-400 transition-colors">{t('navbar.activities')}</button></li>
+              <li><Link to="/admission" className="hover:text-red-400 transition-colors">{t('navbar.admission')}</Link></li>
+              <li><Link to="/donate" className="hover:text-red-400 transition-colors">{t('navbar.donate')}</Link></li>
             </ul>
           </div>
 
           <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
-            <h4 className="text-white font-semibold mb-4">Contact Info</h4>
+            <h4 className="text-white font-semibold mb-4">{t('footer.contact_info')}</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                <span>Manpadle–Manewadi Road, Manpadle,
-Taluka Hatkanangale, District Kolhapur</span>
+                <span>{t('footer.address')}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-red-400 flex-shrink-0" />
@@ -58,29 +60,29 @@ Taluka Hatkanangale, District Kolhapur</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-red-400 flex-shrink-0" />
-                <span>admissions@manpadale.edu.in</span>
+                <span>{t('footer.email')}</span>
               </li>
             </ul>
           </div>
 
           <div className="animate-slide-up" style={{ animationDelay: '300ms' }}>
-  <h4 className="text-white font-semibold mb-4">Our Location</h4>
-  <div className="rounded-lg overflow-hidden h-40 bg-gray-800">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d491.8!2d74.2321883!3d16.8283375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc10791ab5931cb:0x176a8a1c030ebb6f!2sManpadle+Highschool%2C+Manpadle!5e0!3m2!1sen!2sin!4v1234567890"
-      width="100%"
-      height="100%"
-      style={{ border: 0 }}
-      allowFullScreen
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-    ></iframe>
-  </div>
-</div>
+            <h4 className="text-white font-semibold mb-4">{t('footer.location')}</h4>
+            <div className="rounded-lg overflow-hidden h-40 bg-gray-800">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3820.59666012345!2d74.3210!3d16.7890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDQ3JzIwLjQiTiA3NMKwMTknMTUuNiJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} Manpadale Highschool. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t('footer.school_name')}. {t('footer.copyright')}</p>
         </div>
       </div>
     </footer>

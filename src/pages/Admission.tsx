@@ -1,7 +1,8 @@
 import { useState, FormEvent, useEffect, useRef } from 'react';
-import { Calendar, FileText, CheckCircle, User, Mail, Phone, MessageSquare } from 'lucide-react';
+import { Calendar, FileText, CheckCircle, User, Mail, Phone, MessageSquare, BookOpen, Award } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Button from '../components/Button';
+import { useTranslation } from 'react-i18next';
 
 // ── Scroll animation hook ──────────────────────────────────────────
 function useScrollAnimation() {
@@ -26,6 +27,7 @@ function useScrollAnimation() {
 
 // ── Auto-reset countdown after success ──────────────────────────
 function AutoReset({ onReset }: { onReset: () => void }) {
+  const { t } = useTranslation();
   const [seconds, setSeconds] = useState(10);
   const onResetRef = useRef(onReset);
   onResetRef.current = onReset;
@@ -41,19 +43,20 @@ function AutoReset({ onReset }: { onReset: () => void }) {
 
   return (
     <p className="text-gray-400 text-xs mt-6">
-      Form will reset in{' '}
-      <span className="text-red-500 font-bold">{seconds}</span>s —{' '}
+      {t('admission_page.reset_text')}{' '}
+      <span className="text-red-500 font-bold">{seconds}</span>{t('admission_page.reset_seconds_unit')} —{' '}
       <button
         onClick={() => onResetRef.current()}
         className="text-red-600 underline hover:text-red-800 font-medium"
       >
-        reset now
+        {t('admission_page.reset_now')}
       </button>
     </p>
   );
 }
 
 const Admission = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     student_name: '',
     email: '',
@@ -85,18 +88,18 @@ const Admission = () => {
 
     const newErrors: Record<string, string> = {};
     if (!formData.student_name.trim() || formData.student_name.trim().length < 2) {
-      newErrors.student_name = "Please enter a valid full name (at least 2 characters).";
+      newErrors.student_name = t('admission_page.err_name_short');
     } else if (/[0-9]/.test(formData.student_name)) {
-      newErrors.student_name = "Name cannot contain numbers.";
+      newErrors.student_name = t('admission_page.err_name_numbers');
     }
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email = t('admission_page.err_email');
     }
     if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
+      newErrors.phone = t('admission_page.err_phone');
     }
     if (!formData.message.trim() || formData.message.trim().length < 10) {
-      newErrors.message = "Please enter a message (at least 10 characters).";
+      newErrors.message = t('admission_page.err_message');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -120,95 +123,50 @@ const Admission = () => {
   };
 
   const steps = [
-    { icon: FileText,      title: 'Fill Application Form',    description: 'Complete the online admission form with accurate information.',             ref: step1Ref },
-    { icon: CheckCircle,   title: 'Document Verification',    description: 'Submit required documents including birth certificate and records.',        ref: step2Ref },
-    { icon: MessageSquare, title: 'Enrollment Confirmation',  description: 'Complete formalities and receive your confirmation.',                       ref: step3Ref },
+    { icon: BookOpen,      title: t('admission_page.step1_title'),    description: t('admission_page.step1_desc'),    ref: step1Ref },
+    { icon: CheckCircle,   title: t('admission_page.step2_title'),    description: t('admission_page.step2_desc'),    ref: step2Ref },
+    { icon: Award,         title: t('admission_page.step3_title'),    description: t('admission_page.step3_desc'),    ref: step3Ref },
   ];
 
   const requirements = [
-    'Birth Certificate (Original and photocopy)',
-    'Transfer Certificate from previous school',
-    'Academic records of last 2 years',
-    'Recent passport-size photographs',
-    'Address proof (Utility bill/Aadhar)',
+    t('admission_page.doc1'),
+    t('admission_page.doc2'),
+    t('admission_page.doc3'),
+    t('admission_page.doc4'),
+    t('admission_page.doc5'),
   ];
 
   const importantDates = [
-    { event: 'Admission Opens',        date: 'June 1, 2026' },
-    { event: 'Application Deadline',   date: 'June 15, 2026' },
-    { event: 'Entrance Test',          date: 'June 20, 2026' },
-    { event: 'Results Announcement',   date: 'June 25, 2026' },
-    { event: 'Admission Confirmation', date: 'June 30, 2026' },
+    { event: t('admission_page.date1_event'), date: t('admission_page.date1_date') },
+    { event: t('admission_page.date2_event'), date: t('admission_page.date2_date') },
+    { event: t('admission_page.date3_event'), date: t('admission_page.date3_date') },
+    { event: t('admission_page.date4_event'), date: t('admission_page.date4_date') },
+    { event: t('admission_page.date5_event'), date: t('admission_page.date5_date') },
   ];
 
   return (
     <>
       <style>{`
-        .scroll-animate {
-          opacity: 0;
-          transform: translateY(40px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .scroll-animate.animate-in-view {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .scroll-left {
-          opacity: 0;
-          transform: translateX(-40px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .scroll-left.animate-in-view {
-          opacity: 1;
-          transform: translateX(0);
-        }
-        .scroll-right {
-          opacity: 0;
-          transform: translateX(40px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .scroll-right.animate-in-view {
-          opacity: 1;
-          transform: translateX(0);
-        }
-        .scroll-zoom {
-          opacity: 0;
-          transform: scale(0.92);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .scroll-zoom.animate-in-view {
-          opacity: 1;
-          transform: scale(1);
-        }
+        .scroll-animate { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .scroll-animate.animate-in-view { opacity: 1; transform: translateY(0); }
+        .scroll-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .scroll-left.animate-in-view { opacity: 1; transform: translateX(0); }
+        .scroll-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .scroll-right.animate-in-view { opacity: 1; transform: translateX(0); }
+        .scroll-zoom { opacity: 0; transform: scale(0.92); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .scroll-zoom.animate-in-view { opacity: 1; transform: scale(1); }
         .delay-100 { transition-delay: 0.1s; }
         .delay-200 { transition-delay: 0.2s; }
         .delay-300 { transition-delay: 0.3s; }
-        @keyframes fadeSlideDown {
-          from { opacity: 0; transform: translateY(-24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes popIn {
-          0%   { opacity: 0; transform: scale(0.5); }
-          70%  { transform: scale(1.1); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes pulseSlow {
-          0%, 100% { opacity: 0.2; }
-          50%       { opacity: 0.35; }
-        }
+        @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes pulseSlow { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.35; } }
         .hero-title { animation: fadeSlideDown 0.8s ease both; }
-        .hero-sub   { animation: fadeSlideUp 0.8s 0.25s ease both; }
+        .hero-sub { animation: fadeSlideUp 0.8s 0.25s ease both; }
         .pulse-blob { animation: pulseSlow 4s infinite; }
         .success-icon { animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both; }
-        .list-item {
-          opacity: 0;
-          transform: translateX(-16px);
-          transition: opacity 0.4s ease, transform 0.4s ease;
-        }
+        .list-item { opacity: 0; transform: translateX(-16px); transition: opacity 0.4s ease, transform 0.4s ease; }
         .animate-in-view .list-item { opacity: 1; transform: translateX(0); }
         .animate-in-view .list-item:nth-child(1) { transition-delay: 0.05s; }
         .animate-in-view .list-item:nth-child(2) { transition-delay: 0.15s; }
@@ -216,58 +174,27 @@ const Admission = () => {
         .animate-in-view .list-item:nth-child(4) { transition-delay: 0.35s; }
         .animate-in-view .list-item:nth-child(5) { transition-delay: 0.45s; }
 
-        .process-card {
-          position: relative;
-          overflow: hidden;
-          transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
-        }
-        .process-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 0.75rem;
-          background: linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(220,38,38,0.02) 100%);
-          opacity: 0;
-          transition: opacity 0.35s ease;
-        }
-        .process-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 24px 48px -8px rgba(220,38,38,0.18), 0 8px 16px -4px rgba(0,0,0,0.08);
-          background-color: #fff7f7;
-        }
+        .process-card { position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease; }
+        .process-card::before { content: ''; position: absolute; inset: 0; border-radius: 0.75rem; background: linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(220,38,38,0.02) 100%); opacity: 0; transition: opacity 0.35s ease; }
+        .process-card:hover { transform: translateY(-10px); box-shadow: 0 24px 48px -8px rgba(220,38,38,0.18), 0 8px 16px -4px rgba(0,0,0,0.08); background-color: #fff7f7; }
         .process-card:hover::before { opacity: 1; }
-        .process-card .card-icon-wrap {
-          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .process-card:hover .card-icon-wrap {
-          transform: scale(1.18) rotate(-6deg);
-          background-color: #b91c1c;
-          box-shadow: 0 8px 20px rgba(185,28,28,0.35);
-        }
+        .process-card .card-icon-wrap { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background-color 0.3s ease, box-shadow 0.3s ease; }
+        .process-card:hover .card-icon-wrap { transform: scale(1.18) rotate(-6deg); background-color: #b91c1c; box-shadow: 0 8px 20px rgba(185,28,28,0.35); }
         .process-card .card-number { transition: color 0.3s ease, transform 0.3s ease; }
         .process-card:hover .card-number { color: #fecaca; transform: scale(1.1); }
         .process-card .card-title { transition: color 0.3s ease; }
         .process-card:hover .card-title { color: #dc2626; }
-        .process-card .card-bottom-bar {
-          position: absolute;
-          bottom: 0; left: 0;
-          width: 0%; height: 4px;
-          background: linear-gradient(90deg, #dc2626, #f87171);
-          border-radius: 0 0 0.75rem 0.75rem;
-          transition: width 0.4s ease;
-        }
+        .process-card .card-bottom-bar { position: absolute; bottom: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #dc2626, #f87171); border-radius: 0 0 0.75rem 0.75rem; transition: width 0.4s ease; }
         .process-card:hover .card-bottom-bar { width: 100%; }
       `}</style>
 
       <div className="min-h-screen pt-20 bg-slate-50">
-
         {/* 1. HERO */}
         <section className="relative py-14 bg-gradient-to-br from-red-700 to-red-900 text-white overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 hero-title">Admissions</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 hero-title">{t('admission_page.hero_title')}</h1>
             <p className="text-xl text-red-100 max-w-3xl mx-auto hero-sub">
-              Begin your educational journey with{' '}
-              <span className="notranslate" translate="no">Manpadle High School</span>
+              {t('admission_page.hero_subtitle')}
             </p>
           </div>
           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-red-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pulse-blob"></div>
@@ -278,12 +205,12 @@ const Admission = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-10">
               <div ref={overviewRef as any} className="scroll-left">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4 border-l-4 border-red-600 pl-4">Admission Overview</h2>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4 border-l-4 border-red-600 pl-4">{t('admission_page.overview_title')}</h2>
                 <p className="text-lg text-gray-600 leading-relaxed mb-4">
-                  <span className="notranslate" translate="no">Manpadle High School</span> welcomes applications from students seeking admission. Our process is designed to be transparent, fair, and inclusive.
+                  {t('admission_page.overview_p1')}
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  We assess students based on their academic potential and alignment with our school's values.
+                  {t('admission_page.overview_p2')}
                 </p>
               </div>
               <div className="scroll-zoom animate-in-view relative">
@@ -299,7 +226,7 @@ const Admission = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div ref={docsRef as any} className="scroll-left bg-red-50 rounded-2xl p-8 border border-red-100 shadow-sm">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <FileText className="w-6 h-6 mr-3 text-red-600" /> Required Documents
+                  <FileText className="w-6 h-6 mr-3 text-red-600" /> {t('admission_page.docs_title')}
                 </h3>
                 <ul className="space-y-3">
                   {requirements.map((req, i) => (
@@ -312,7 +239,7 @@ const Admission = () => {
 
               <div ref={datesRef as any} className="scroll-right bg-[#FDFCF6] rounded-2xl p-8 border border-red-100 shadow-sm">
                 <h3 className="text-2xl font-bold text-black mb-6 flex items-center">
-                  <Calendar className="w-6 h-6 mr-3 text-red-600" /> Important Dates
+                  <Calendar className="w-6 h-6 mr-3 text-red-600" /> {t('admission_page.dates_title')}
                 </h3>
                 <ul className="space-y-5">
                   {importantDates.map((item, i) => (
@@ -331,8 +258,8 @@ const Admission = () => {
         <section className="py-10 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div ref={processTitle as any} className="scroll-animate text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Application Process</h2>
-              <p className="text-gray-600">Follow these three steps to secure enrollment</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{t('admission_page.process_title')}</h2>
+              <p className="text-gray-600">{t('admission_page.process_subtitle')}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {steps.map((step, index) => (
@@ -363,26 +290,23 @@ const Admission = () => {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div ref={formRef as any} className="scroll-animate">
               <div className="text-center mb-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-3">Admission Enquiry Form</h2>
-                <p className="text-gray-600">Submit your details and we will get back to you soon.</p>
+                <h2 className="text-3xl font-bold text-gray-900 mb-3">{t('admission_page.form_title')}</h2>
+                <p className="text-gray-600">{t('admission_page.form_subtitle')}</p>
               </div>
               <div className="bg-red-50 rounded-3xl shadow-2xl p-8 border border-gray-100">
-
                 {submitStatus === 'success' ? (
                   <div className="text-center py-12">
                     <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm success-icon">
                       <CheckCircle className="w-12 h-12 text-green-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
-                    <p className="text-gray-500 text-base">
-                      Your message has been received. We'll get back to you soon.
-                    </p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('admission_page.success_title')}</h3>
+                    <p className="text-gray-500 text-base">{t('admission_page.success_msg')}</p>
                     <p className="text-gray-400 text-sm mt-2">
-                      For urgent enquiries, call us at{' '}
+                      {t('admission_page.success_urgent')}{' '}
                       <a href="tel:+919657630464" className="text-red-600 font-semibold hover:underline">
                         +91 9657630464 | +91 9527794050
                       </a>{' '}
-                      or email{' '}
+                      {t('admission_page.success_or_email')}{' '}
                       <a href="mailto:admissions@manpadale.edu.in" className="text-red-600 font-semibold hover:underline">
                         admissions@manpadale.edu.in
                       </a>
@@ -392,11 +316,9 @@ const Admission = () => {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                      {/* Student Name */}
                       <div>
                         <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                          <User className="w-4 h-4 mr-2 text-red-600" /> Student Name
+                          <User className="w-4 h-4 mr-2 text-red-600" /> {t('admission_page.form_name_label')}
                         </label>
                         <input
                           type="text"
@@ -408,16 +330,14 @@ const Admission = () => {
                             if (errors.student_name) setErrors({ ...errors, student_name: null });
                           }}
                           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.student_name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                          placeholder="Enter Full Name"
+                          placeholder={t('admission_page.form_name_placeholder')}
                         />
                         {errors.student_name && <p className="text-red-500 text-xs mt-1">{errors.student_name}</p>}
                       </div>
-
-                      {/* Email */}
                       <div>
                         <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                          <Mail className="w-4 h-4 mr-2 text-red-600" /> Email Address
-                          <span className="ml-2 text-xs font-normal text-gray-400">(optional)</span>
+                          <Mail className="w-4 h-4 mr-2 text-red-600" /> {t('admission_page.form_email_label')}
+                          <span className="ml-2 text-xs font-normal text-gray-400">{t('admission_page.form_email_optional')}</span>
                         </label>
                         <input
                           type="email"
@@ -427,16 +347,14 @@ const Admission = () => {
                             if (errors.email) setErrors({ ...errors, email: null });
                           }}
                           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                          placeholder="email@example.com"
+                          placeholder={t('admission_page.form_email_placeholder')}
                         />
                         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                       </div>
                     </div>
-
-                    {/* Phone */}
                     <div>
                       <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                        <Phone className="w-4 h-4 mr-2 text-red-600" /> Phone Number
+                        <Phone className="w-4 h-4 mr-2 text-red-600" /> {t('admission_page.form_phone_label')}
                       </label>
                       <input
                         type="tel"
@@ -446,15 +364,13 @@ const Admission = () => {
                           if (errors.phone) setErrors({ ...errors, phone: null });
                         }}
                         className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                        placeholder="10-digit mobile number"
+                        placeholder={t('admission_page.form_phone_placeholder')}
                       />
                       {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                     </div>
-
-                    {/* Message */}
                     <div>
                       <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                        <MessageSquare className="w-4 h-4 mr-2 text-red-600" /> Message
+                        <MessageSquare className="w-4 h-4 mr-2 text-red-600" /> {t('admission_page.form_message_label')}
                       </label>
                       <textarea
                         rows={4}
@@ -464,23 +380,21 @@ const Admission = () => {
                           if (errors.message) setErrors({ ...errors, message: null });
                         }}
                         className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white resize-none ${errors.message ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                        placeholder="Write your enquiry here — e.g. class applying for, any questions..."
+                        placeholder={t('admission_page.form_message_placeholder')}
                       />
                       {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
                     </div>
-
                     {submitStatus === 'error' && (
                       <div className="bg-red-100 border border-red-300 text-red-700 text-sm px-4 py-3 rounded-xl">
-                        Something went wrong. Please try again or contact us directly.
+                        {t('admission_page.form_error_msg')}
                       </div>
                     )}
-
                     <Button
                       type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-red-600 hover:bg-red-700 py-4 text-lg font-bold rounded-xl shadow-lg shadow-red-200"
                     >
-                      {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                      {isSubmitting ? t('admission_page.form_submitting') : t('admission_page.form_submit_btn')}
                     </Button>
                   </form>
                 )}
@@ -488,7 +402,6 @@ const Admission = () => {
             </div>
           </div>
         </section>
-
       </div>
     </>
   );

@@ -1,60 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, GraduationCap, Languages } from 'lucide-react';
-
-// ── Google Translate trigger hook ──
-function useGoogleTranslate() {
-  const [isMarathi, setIsMarathi] = useState(() => {
-    return localStorage.getItem('lang') === 'mr';
-  });
-
-  useEffect(() => {
-    if (localStorage.getItem('lang') === 'mr') {
-      const tryTranslate = () => {
-        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (select) {
-          select.value = 'mr';
-          select.dispatchEvent(new Event('change'));
-        } else {
-          setTimeout(tryTranslate, 300);
-        }
-      };
-      setTimeout(tryTranslate, 800);
-    }
-  }, []);
-
-  const toggle = () => {
-    if (isMarathi) {
-      localStorage.setItem('lang', 'en');
-      setIsMarathi(false);
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${location.hostname}`;
-      window.location.reload();
-    } else {
-      localStorage.setItem('lang', 'mr');
-      setIsMarathi(true);
-      const tryTranslate = () => {
-        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (select) {
-          select.value = 'mr';
-          select.dispatchEvent(new Event('change'));
-        } else {
-          setTimeout(tryTranslate, 300);
-        }
-      };
-      tryTranslate();
-    }
-  };
-
-  return { isMarathi, toggle };
-}
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const location = useLocation();
-  const { isMarathi, toggle } = useGoogleTranslate();
+
+  // ── i18next language toggle ──
+  const { t, i18n } = useTranslation();
+  const isMarathi = i18n.language === 'mr';
+  const toggle = () => i18n.changeLanguage(isMarathi ? 'en' : 'mr');
 
   // ── Scroll handler: navbar shadow + active section detection ──
   useEffect(() => {
@@ -124,7 +82,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  // ── Active link logic (Home unhighlights when a section is active) ──
+  // ── Active link logic ──
   const isLinkActive = (link: { path?: string; section?: string }) => {
     if (link.path) {
       if (link.path === '/' && activeSection !== null) return false;
@@ -137,13 +95,13 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: 'Home',         path: '/' },
-    { name: 'About',        path: '/about' },
-    { name: 'Achievements', section: 'achievements' },
-    { name: 'Activities',   section: 'activities' },
-    { name: 'Admission',    path: '/admission' },
-    { name: 'Donate',       path: '/donate' },
-    { name: 'Contact',      section: 'contact' },
+    { name: t('navbar.home'),         path: '/' },
+    { name: t('navbar.about'),        path: '/about' },
+    { name: t('navbar.achievements'), section: 'achievements' },
+    { name: t('navbar.activities'),   section: 'activities' },
+    { name: t('navbar.admission'),    path: '/admission' },
+    { name: t('navbar.donate'),       path: '/donate' },
+    { name: t('navbar.contact'),      section: 'contact' },
   ];
 
   const TranslateButton = ({ mobile = false }: { mobile?: boolean }) => (
@@ -158,9 +116,7 @@ const Navbar = () => {
       `}
     >
       <Languages className="w-4 h-4" />
-      <span className="notranslate" translate="no">
-        {isMarathi ? 'English' : 'मराठी'}
-      </span>
+      <span>{isMarathi ? 'English' : 'मराठी'}</span>
     </button>
   );
 
@@ -172,16 +128,16 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 md:h-20">
 
           {/* Logo */}
-          <Link to="/mainlogo.jpeg" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="bg-gradient-to-br from-red-600 to-red-700 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
               <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg md:text-xl font-bold text-gray-900">
-                Manpadle Highschool Manpadle
+                {t('navbar.school_name')}
               </span>
               <span className="text-xs text-gray-600 hidden sm:block">
-                Excellence in Education
+                {t('footer.excellence')}
               </span>
             </div>
           </Link>
@@ -229,9 +185,7 @@ const Navbar = () => {
                 }`}
             >
               <Languages className="w-3 h-3" />
-              <span className="notranslate" translate="no">
-                {isMarathi ? 'ENG' : 'मराठी'}
-              </span>
+              <span>{isMarathi ? 'ENG' : 'मराठी'}</span>
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}

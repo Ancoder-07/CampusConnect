@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Button from '../components/Button';
 import { supabase } from '../lib/supabase';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useTranslation } from 'react-i18next';
 
 /* ─── tiny hook: triggers CSS class when element enters viewport ─── */
 function useReveal(options = {}) {
@@ -23,6 +24,7 @@ function useReveal(options = {}) {
 
 /* ─── Auto-reset countdown after success ─── */
 function AutoReset({ onReset }) {
+  const { t } = useTranslation();
   const [seconds, setSeconds] = useState(10);
   const onResetRef = useRef(onReset);
   onResetRef.current = onReset;
@@ -35,68 +37,68 @@ function AutoReset({ onReset }) {
 
   return (
     <p className="text-gray-400 text-xs mt-6">
-      Form will reset in{' '}
-      <span className="text-red-500 font-bold">{seconds}</span>s —{' '}
+      {t('home.reset_text')}{' '}
+      <span className="text-red-500 font-bold">{seconds}</span>{t('home.reset_seconds_unit')} —{' '}
       <button onClick={() => onResetRef.current()} className="text-red-600 underline hover:text-red-800 font-medium">
-        reset now
+        {t('home.reset_now')}
       </button>
     </p>
   );
 }
 
 const Home = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const contactRef = useScrollAnimation();
 
   const achievements = [
-    { image: '/ach2.jpeg',        title: 'Academic Excellence',  description: '98% pass rate with distinction in board examinations' },
-    { image: '/achieve1.jpeg',    title: 'Science Fair Winners',  description: 'State-level winners in basketball and athletics' },
-    { image: '/achieve2.jpeg',    title: 'Science Fair Winners', description: 'National recognition in innovation and research' },
-    { image: '/achieve3.jpeg',    title: 'Board Results',        description: 'Top 10 school in the region for 5 consecutive years' },
-    { image: '/ach1.jpeg',        title: 'Leadership Program',   description: "Develop tomorrow's leaders" },
-    { image: '/achieve.jpeg',     title: 'Community Impact',     description: 'Social responsibility initiatives' },
+    { image: '/ach2.jpeg',        title: t('home.achievements_card1_title'),  description: t('home.achievements_card1_desc') },
+    { image: '/achieve1.jpeg',    title: t('home.achievements_card2_title'),  description: t('home.achievements_card2_desc') },
+    { image: '/achieve2.jpeg',    title: t('home.achievements_card3_title'),  description: t('home.achievements_card3_desc') },
+    { image: '/achieve3.jpeg',    title: t('home.achievements_card4_title'),  description: t('home.achievements_card4_desc') },
+    { image: '/ach1.jpeg',        title: t('home.achievements_card5_title'),  description: t('home.achievements_card5_desc') },
+    { image: '/achieve.jpeg',     title: t('home.achievements_card6_title'),  description: t('home.achievements_card6_desc') },
   ];
 
   const activitiesRow1 = [
-    { image: '/activity.jpeg',  title: 'Sports & Athletics',   description: 'State-of-the-art facilities for various sports' },
-    { image: '/activity2.jpeg',                       title: 'Science Labs',         description: 'Modern laboratories for hands-on learning' },
-    { image: '/activity3.jpeg',                     title: 'Cultural Events',      description: 'Annual festivals and talent showcases' },
-    { image: '/activity4.jpeg',                     title: 'Community Service',    description: 'Regular outreach and social initiatives' },
-    { image: '/act1.jpeg',                     title: 'Art & Creativity',     description: 'Express yourself through art' },
-    { image: '/act2.jpeg',                     title: 'Music & Performances', description: 'Showcase your talents' },
-    { image: '/act20.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-    { image: '/act21.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-    { image: '/act22.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-    { image: '/act23.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-    { image: '/act24.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-    { image: '/act25.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
+    { image: '/activity.jpeg',  title: t('home.activity_sports_title'),   description: t('home.activity_sports_desc') },
+    { image: '/activity2.jpeg', title: t('home.activity_labs_title'),     description: t('home.activity_labs_desc') },
+    { image: '/activity3.jpeg', title: t('home.activity_culture_title'),  description: t('home.activity_culture_desc') },
+    { image: '/activity4.jpeg', title: t('home.activity_community_title'),description: t('home.activity_community_desc') },
+    { image: '/act1.jpeg',      title: t('home.activity_art_title'),       description: t('home.activity_art_desc') },
+    { image: '/act2.jpeg',      title: t('home.activity_music_title'),     description: t('home.activity_music_desc') },
+    { image: '/act20.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
+    { image: '/act21.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
+    { image: '/act22.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
+    { image: '/act23.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
+    { image: '/act24.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
+    { image: '/act25.jpeg',     title: t('home.activity_computer_title'),  description: t('home.activity_computer_desc') },
   ];
 
   const activitiesRow2 = [
-  { image: '/act3.jpeg', title: 'Library',       description: 'Well-stocked reading space for curious minds' },
-  { image: '/act4.jpeg', title: 'Computer Lab',  description: 'Modern tech infrastructure for digital learning' },
-  { image: '/act5.jpeg', title: 'Dance & Drama', description: 'Stage performances and creative expression' },
-  { image: '/act6.jpeg', title: 'Yoga & Wellness', description: 'Mind and body balance programs' },
-  { image: '/act7.jpeg',  title: 'Reading Club',   description: 'Fostering a love for books and literature' },
-  { image: '/act8.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act9.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act10.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act11.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act12.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act13.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act14.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act15.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act16.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act16.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act17.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act18.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-  { image: '/act19.jpeg', title: 'Computer Lab',  description: 'Coding and digital skills for the future' },
-];
+    { image: '/act3.jpeg',  title: t('home.activity_library_title'),  description: t('home.activity_library_desc') },
+    { image: '/act4.jpeg',  title: t('home.activity_tech_title'),     description: t('home.activity_tech_desc') },
+    { image: '/act5.jpeg',  title: t('home.activity_dance_title'),    description: t('home.activity_dance_desc') },
+    { image: '/act6.jpeg',  title: t('home.activity_yoga_title'),     description: t('home.activity_yoga_desc') },
+    { image: '/act7.jpeg',  title: t('home.activity_reading_title'),  description: t('home.activity_reading_desc') },
+    { image: '/act8.jpeg',  title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act9.jpeg',  title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act10.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act11.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act12.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act13.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act14.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act15.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act16.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act17.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act18.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+    { image: '/act19.jpeg', title: t('home.activity_computer_title'), description: t('home.activity_computer_desc') },
+  ];
 
   const admissionSteps = [
-    { number: '01', title: 'Application Form',        description: 'Fill out the online admission form with required details',    icon: BookOpen },
-    { number: '02', title: 'Document Verification',   description: 'Submit and verify all necessary documents',                   icon: CheckCircle },
-    { number: '03', title: 'Enrollment Confirmation', description: 'Complete payment and receive admission confirmation',         icon: Award },
+    { number: '01', title: t('home.admission_step1_title'), description: t('home.admission_step1_desc'), icon: BookOpen },
+    { number: '02', title: t('home.admission_step2_title'), description: t('home.admission_step2_desc'), icon: CheckCircle },
+    { number: '03', title: t('home.admission_step3_title'), description: t('home.admission_step3_desc'), icon: Award },
   ];
 
   const aboutRef      = useReveal();
@@ -121,15 +123,15 @@ const Home = () => {
     e.preventDefault();
     const newErrors = {};
     if (!formData.student_name.trim() || formData.student_name.trim().length < 2)
-      newErrors.student_name = 'Please enter a valid full name (at least 2 characters).';
+      newErrors.student_name = t('home.err_name_short');
     else if (/[0-9]/.test(formData.student_name))
-      newErrors.student_name = 'Name cannot contain numbers.';
+      newErrors.student_name = t('home.err_name_numbers');
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('home.err_email');
     if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = 'Please enter a valid 10-digit phone number.';
+      newErrors.phone = t('home.err_phone');
     if (!formData.message.trim() || formData.message.trim().length < 10)
-      newErrors.message = 'Please enter a message (at least 10 characters).';
+      newErrors.message = t('home.err_message');
 
     if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
@@ -210,16 +212,16 @@ const Home = () => {
             <div className="float-b absolute bottom-32 right-16 w-48 h-48 rounded-full bg-red-300/10 blur-2xl pointer-events-none"></div>
             <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
               <h1 className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-                Welcome to Manpadle Highschool, Manpadle
+                {t('home.hero_title')}
               </h1>
-<p className="hero-sub text-xl md:text-2xl mb-8 text-red-100">
-  <b>न हि ज्ञानेन सदृशं पवित्रमिह विद्यते।</b> <br />
-  <b>Our goal is to nurture students into cultured, value-driven, and exemplary personalities.</b>
-</p>
+              <p className="hero-sub text-xl md:text-2xl mb-8 text-red-100">
+                <b>{t('home.hero_slogan_sanskrit')}</b> <br />
+                <b>{t('home.hero_slogan_english')}</b>
+              </p>
 
               <div className="hero-btns flex flex-col sm:flex-row gap-4 justify-center">
                 <Button onClick={() => navigate('/admission')}>
-                  Apply for Admission
+                  {t('home.hero_apply_btn')}
                   <ArrowRight className="inline-block ml-2 w-5 h-5" />
                 </Button>
                 <Button
@@ -227,7 +229,7 @@ const Home = () => {
                   onClick={() => navigate('/donate')}
                   className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/20 hover:border-white hover:text-white"
                 >
-                  Support Our Mission
+                  {t('home.hero_support_btn')}
                 </Button>
               </div>
             </div>
@@ -245,17 +247,17 @@ const Home = () => {
                     About Us
                   </span>
                   <span className="pop-in relative inline-block text-xs font-semibold tracking-widest uppercase bg-red-100 text-red-600 px-4 py-1.5 rounded-full mb-5">
-                    Who We Are
+                    {t('home.about_badge')}
                   </span>
                 </div>
                 <h2 className="relative text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  About Manpadle Highschool
+                  {t('home.about_title')}
                 </h2>
                 <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  Welcome to <b>Manpadle Highschool</b> — a place where every child is known, cared for, and encouraged to do their best. Manpadale Highschool was started to give good education to children  in our village and nearby areas. Our school runs from Class 5 to 10  and is managed by <b>Late Buvasaheb Patil Shikshan Prasarak Mandal</b>,  Manpadale and awarded with the <b>Dalit Mitra Puraskar</b>. We believe every child deserves a chance to study. That is why we  provide <b>free admission</b>, <b>free uniform</b>, and <b>free books</b> to all students.  Our teachers work hard every day to help each child grow and succeed. here change the starting</p>
+                  {t('home.about_description')}</p>
                 <div className="grow-line h-0.5 bg-red-200 mx-auto mb-8 rounded-full"></div>
                 <Button onClick={() => navigate('/about')} variant="outline">
-                  Know More About Us
+                  {t('home.about_btn')}
                   <ArrowRight className="inline-block ml-2 w-5 h-5" />
                 </Button>
               </div>
@@ -276,14 +278,14 @@ const Home = () => {
                     Admission
                   </span>
                   <span className="pop-in relative inline-block text-xs font-semibold tracking-widest uppercase bg-red-100 text-red-600 px-4 py-1.5 rounded-full mb-4">
-                    How to Join
+                    {t('home.admission_badge')}
                   </span>
                 </div>
                 <h2 className="relative text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-                  Admission <span className="text-red-600">Process</span>
+                  {t('home.admission_title')} <span className="text-red-600">{t('home.admission_title_accent')}</span>
                 </h2>
                 <p className="text-gray-500 text-base max-w-xl mx-auto mb-4">
-                  Three simple steps to become part of our community
+                  {t('home.admission_subtitle')}
                 </p>
                 <div className="grow-line h-1 bg-red-600 mx-auto rounded-full"></div>
               </div>
@@ -314,7 +316,7 @@ const Home = () => {
                   onClick={() => navigate('/admission')}
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors duration-300 shadow-md hover:shadow-lg"
                 >
-                  Start Your Application
+                  {t('home.admission_cta_btn')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -336,11 +338,11 @@ const Home = () => {
                     Success
                   </span>
                   <span className="pop-in relative inline-block text-xs font-semibold tracking-widest uppercase bg-red-100 text-red-600 px-4 py-1.5 rounded-full mb-4">
-                    Recognition
+                    {t('home.achievements_badge')}
                   </span>
                 </div>
                 <h2 className="relative text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                  Our <span className="text-red-600">Achievements</span>
+                  {t('home.achievements_title')} <span className="text-red-600">{t('home.achievements_title_accent')}</span>
                 </h2>
                 <div className="grow-line h-1 bg-red-600 rounded-full mt-2"></div>
               </div>
@@ -386,11 +388,11 @@ const Home = () => {
                     Campus
                   </span>
                   <span className="pop-in relative inline-block text-xs font-semibold tracking-widest uppercase bg-red-100 text-red-600 px-4 py-1.5 rounded-full mb-4">
-                    Campus Life
+                    {t('home.activities_badge')}
                   </span>
                 </div>
                 <h2 className="relative text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                  Activities & <span className="text-red-600">Facilities</span>
+                  {t('home.activities_title')} <span className="text-red-600">{t('home.activities_title_accent')}</span>
                 </h2>
                 <div className="grow-line h-1 bg-red-600 rounded-full mt-2"></div>
               </div>
@@ -421,31 +423,31 @@ const Home = () => {
                 </div>
               </div>
               <div className="overflow-hidden mt-3">
-  <div className="scroll-left py-4" style={{ gap: '1.5rem', animationDuration: '84s' }}>
-    {[...activitiesRow2, ...activitiesRow2].map((activity, index) => (
-      <div
-        key={index}
-        className="card-hover w-[260px] flex-shrink-0 group relative overflow-hidden rounded-2xl border-2 border-orange-100 hover:border-red-300 hover:shadow-lg hover:shadow-orange-50"
-        style={{ marginRight: '1.5rem' }}
-      >
-        <div className="h-[180px] overflow-hidden">
-          <img
-            src={activity.image}
-            alt={activity.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-800/10 to-transparent flex items-end p-5">
-          <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-            <h3 className="text-base font-bold text-white mb-1">{activity.title}</h3>
-            <p className="text-xs text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">{activity.description}</p>
-          </div>
-        </div>
-        <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm"></div>
-      </div>
-    ))}
-  </div>
-</div>
+                <div className="scroll-left py-4" style={{ gap: '1.5rem', animationDuration: '84s' }}>
+                  {[...activitiesRow2, ...activitiesRow2].map((activity, index) => (
+                    <div
+                      key={index}
+                      className="card-hover w-[260px] flex-shrink-0 group relative overflow-hidden rounded-2xl border-2 border-orange-100 hover:border-red-300 hover:shadow-lg hover:shadow-orange-50"
+                      style={{ marginRight: '1.5rem' }}
+                    >
+                      <div className="h-[180px] overflow-hidden">
+                        <img
+                          src={activity.image}
+                          alt={activity.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-800/10 to-transparent flex items-end p-5">
+                        <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                          <h3 className="text-base font-bold text-white mb-1">{activity.title}</h3>
+                          <p className="text-xs text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">{activity.description}</p>
+                        </div>
+                      </div>
+                      <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 
@@ -454,13 +456,13 @@ const Home = () => {
             <div ref={ctaRef} className="reveal max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
                 <span className="inline-block text-xs font-semibold tracking-widest uppercase bg-red-100 text-red-600 px-4 py-1.5 rounded-full mb-4">
-                  Get In Touch
+                  {t('home.contact_badge')}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Get In Touch
+                  {t('home.contact_title')}
                 </h2>
                 <p className="text-lg text-gray-500">
-                  Have questions? We're here to help!
+                  {t('home.contact_subtitle')}
                 </p>
                 <div className="grow-line h-1 bg-red-600 mx-auto rounded-full mt-4"></div>
               </div>
@@ -470,12 +472,12 @@ const Home = () => {
                     <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm" style={{ animation: 'popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both' }}>
                       <CheckCircle className="w-12 h-12 text-green-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
-                    <p className="text-gray-500 text-base">Your message has been received. We'll get back to you soon.</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('home.success_title')}</h3>
+                    <p className="text-gray-500 text-base">{t('home.success_msg')}</p>
                     <p className="text-gray-400 text-sm mt-2">
-                      For urgent enquiries, call us at{' '}
+                      {t('home.success_urgent')}{' '}
                       <a href="tel:+911234567890" className="text-red-600 font-semibold hover:underline">+91 12345 67890</a>{' '}
-                      or email{' '}
+                      {t('home.success_or_email')}{' '}
                       <a href="mailto:admissions@greenfieldhigh.com" className="text-red-600 font-semibold hover:underline">admissions@greenfieldhigh.com</a>
                     </p>
                     <AutoReset key={resetKey} onReset={handleReset} />
@@ -485,7 +487,7 @@ const Home = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                          <User className="w-4 h-4 mr-2 text-red-600" /> Student Name
+                          <User className="w-4 h-4 mr-2 text-red-600" /> {t('home.form_name_label')}
                         </label>
                         <input
                           type="text"
@@ -497,14 +499,14 @@ const Home = () => {
                             if (errors.student_name) setErrors({ ...errors, student_name: null });
                           }}
                           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.student_name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                          placeholder="Enter Full Name"
+                          placeholder={t('home.form_name_placeholder')}
                         />
                         {errors.student_name && <p className="text-red-500 text-xs mt-1">{errors.student_name}</p>}
                       </div>
                       <div>
                         <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                          <Mail className="w-4 h-4 mr-2 text-red-600" /> Email Address
-                          <span className="ml-2 text-xs font-normal text-gray-400">(optional)</span>
+                          <Mail className="w-4 h-4 mr-2 text-red-600" /> {t('home.form_email_label')}
+                          <span className="ml-2 text-xs font-normal text-gray-400">{t('home.form_email_optional')}</span>
                         </label>
                         <input
                           type="email"
@@ -514,14 +516,14 @@ const Home = () => {
                             if (errors.email) setErrors({ ...errors, email: null });
                           }}
                           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                          placeholder="email@example.com"
+                          placeholder={t('home.form_email_placeholder')}
                         />
                         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                       </div>
                     </div>
                     <div>
                       <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                        <Phone className="w-4 h-4 mr-2 text-red-600" /> Phone Number
+                        <Phone className="w-4 h-4 mr-2 text-red-600" /> {t('home.form_phone_label')}
                       </label>
                       <input
                         type="tel"
@@ -531,13 +533,13 @@ const Home = () => {
                           if (errors.phone) setErrors({ ...errors, phone: null });
                         }}
                         className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white ${errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                        placeholder="10-digit mobile number"
+                        placeholder={t('home.form_phone_placeholder')}
                       />
                       {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                     </div>
                     <div>
                       <label className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-                        <MessageSquare className="w-4 h-4 mr-2 text-red-600" /> Message
+                        <MessageSquare className="w-4 h-4 mr-2 text-red-600" /> {t('home.form_message_label')}
                       </label>
                       <textarea
                         rows={4}
@@ -547,13 +549,13 @@ const Home = () => {
                           if (errors.message) setErrors({ ...errors, message: null });
                         }}
                         className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all bg-white resize-none ${errors.message ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                        placeholder="Write your enquiry here — e.g. class applying for, any questions..."
+                        placeholder={t('home.form_message_placeholder')}
                       />
                       {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
                     </div>
                     {submitStatus === 'error' && (
                       <div className="bg-red-100 border border-red-300 text-red-700 text-sm px-4 py-3 rounded-xl">
-                        Something went wrong. Please try again or contact us directly.
+                        {t('home.form_error_msg')}
                       </div>
                     )}
                     <Button
@@ -561,7 +563,7 @@ const Home = () => {
                       disabled={isSubmitting}
                       className="w-full bg-red-600 hover:bg-red-700 py-4 text-lg font-bold rounded-xl shadow-lg shadow-red-200"
                     >
-                      {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
+                      {isSubmitting ? t('home.form_submitting') : t('home.form_submit_btn')}
                     </Button>
                   </form>
                 )}
