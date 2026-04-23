@@ -248,13 +248,13 @@ const Donate = () => {
         <section className="relative py-24 bg-gradient-to-br from-red-700 to-red-900 text-white overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="slide1 absolute inset-0">
-              <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1600" alt="Students learning" className="w-full h-full object-cover object-top" />
+              <img src="/d1.jpeg" alt="Students learning" className="w-full h-full object-cover object-top" />
             </div>
             <div className="slide2 absolute inset-0">
-              <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&q=80&w=1600" alt="Classroom" className="w-full h-full object-cover object-top" />
+              <img src="/d2.jpeg" alt="Classroom" className="w-full h-full object-cover object-top" />
             </div>
             <div className="slide3 absolute inset-0">
-              <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=1600" alt="School building" className="w-full h-full object-cover object-top" />
+              <img src="/d3.jpeg" alt="School building" className="w-full h-full object-cover object-top" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-red-900/50" />
           </div>

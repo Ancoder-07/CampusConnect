@@ -140,8 +140,6 @@ const Admission = () => {
     { event: t('admission_page.date1_event'), date: t('admission_page.date1_date') },
     { event: t('admission_page.date2_event'), date: t('admission_page.date2_date') },
     { event: t('admission_page.date3_event'), date: t('admission_page.date3_date') },
-    { event: t('admission_page.date4_event'), date: t('admission_page.date4_date') },
-    { event: t('admission_page.date5_event'), date: t('admission_page.date5_date') },
   ];
 
   return (
