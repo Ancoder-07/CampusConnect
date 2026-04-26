@@ -591,16 +591,16 @@ const Admission = () => {
 
                     {/* Contact footer — unique to Admission, not on About */}
                     <div className="pt-5 border-t border-gray-100 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400 font-medium">
+                      <a href="tel:+917588869700" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+                        <Phone className="w-3.5 h-3.5" /> +91 7588869700
+                      </a>
+                      <span className="text-gray-200">|</span>
                       <a href="tel:+919657630464" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                         <Phone className="w-3.5 h-3.5" /> +91 9657630464
                       </a>
                       <span className="text-gray-200">|</span>
-                      <a href="tel:+919527794050" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
-                        <Phone className="w-3.5 h-3.5" /> +91 9527794050
-                      </a>
-                      <span className="text-gray-200">|</span>
-                      <a href="mailto:admissions@manpadale.edu.in" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
-                        <Mail className="w-3.5 h-3.5" /> admissions@manpadale.edu.in
+                      <a href="mailto:headmaster.mhm@gmail.com" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+                        <Mail className="w-3.5 h-3.5" /> headmaster.mhm@gmail.com
                       </a>
                     </div>
                   </form>

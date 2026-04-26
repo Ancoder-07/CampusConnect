@@ -165,10 +165,10 @@ const About = () => {
                       className="w-full h-[480px] object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
                     />
                   </div>
-                  <div className="num-pop absolute -bottom-6 -left-6 bg-red-600 text-white px-8 py-6 rounded-2xl shadow-xl hidden md:block border-4 border-[#FDFCF6]">
-                    <p className="text-4xl font-black leading-none tracking-tighter">32+</p>
-                    <p className="text-[11px] uppercase tracking-widest font-bold mt-1">{t('about_page.years_of_legacy', 'Years of Legacy')}</p>
-                  </div>
+                  <div className="num-pop absolute -bottom-4 left-4 md:-bottom-6 md:-left-6 bg-red-600 text-white px-5 py-4 md:px-8 md:py-6 rounded-2xl shadow-xl border-4 border-[#FDFCF6]">
+                    <p className="text-2xl md:text-4xl font-black leading-none tracking-tighter">32+</p>
+                    <p className="text-[10px] md:text-[11px] uppercase tracking-widest font-bold mt-1">{t('about_page.years_of_legacy', 'Years of Legacy')}</p>
+                </div>
                 </div>
                 <div ref={storyTxtRef} className="reveal-right lg:col-span-7 lg:pl-10">
                   <div className="flex items-center gap-4 mb-8">

@@ -1,5 +1,5 @@
 import { useState, FormEvent, useEffect, useRef } from 'react';
-import { Heart, BookOpen, Monitor, Users, Building, Smartphone, Mail, Phone, CheckCircle, CreditCard } from 'lucide-react';
+import { Heart, BookOpen, Monitor, Users, Building, Smartphone, Mail, Phone, CheckCircle, CreditCard, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
@@ -48,8 +48,62 @@ function AutoReset({ onReset }: { onReset: () => void }) {
   );
 }
 
+// ── FAQ Accordion Item ────────────────────────────────────────────
+function FaqItem({ question, answer, isOpen, onClick }: {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onClick: () => void;
+}) {
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      className={`faq-accordion-item rounded-2xl border transition-all duration-300 overflow-hidden ${
+        isOpen
+          ? 'border-red-300 bg-white shadow-md shadow-red-100'
+          : 'border-gray-200 bg-white hover:border-red-200 hover:shadow-sm'
+      }`}
+    >
+      <button
+        onClick={onClick}
+        className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none group"
+        aria-expanded={isOpen}
+      >
+        <span className={`text-base font-semibold transition-colors duration-200 ${isOpen ? 'text-red-600' : 'text-gray-800 group-hover:text-red-600'}`}>
+          {question}
+        </span>
+        <span
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isOpen ? 'bg-red-600 text-white rotate-180' : 'bg-red-50 text-red-500 group-hover:bg-red-100'
+          }`}
+        >
+          <ChevronDown className="w-4 h-4" />
+        </span>
+      </button>
+
+      <div
+        ref={bodyRef}
+        className="overflow-hidden transition-all duration-400 ease-in-out"
+        style={{
+          maxHeight: isOpen ? `${bodyRef.current?.scrollHeight ?? 300}px` : '0px',
+          opacity: isOpen ? 1 : 0,
+          transition: 'max-height 0.4s ease, opacity 0.3s ease',
+        }}
+      >
+        <div className="px-6 pb-5">
+          <div className="h-px bg-red-100 mb-4" />
+          <p className="text-gray-600 text-sm leading-relaxed">{answer}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Donate = () => {
   const { t } = useTranslation();
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -64,23 +118,21 @@ const Donate = () => {
 
   const formSectionRef = useRef<HTMLElement>(null);
 
-  const whyRef        = useScrollAnimation();
-  const waysTitle     = useScrollAnimation();
-  const contrib1      = useScrollAnimation();
-  const contrib2      = useScrollAnimation();
-  const contrib3      = useScrollAnimation();
-  const contrib4      = useScrollAnimation();
-  const howTitle      = useScrollAnimation();
-  const method1       = useScrollAnimation();
-  const method2       = useScrollAnimation();
-  const method3       = useScrollAnimation();
-  const method4       = useScrollAnimation();
-  const faqTitle      = useScrollAnimation();
-  const faq1          = useScrollAnimation();
-  const faq2          = useScrollAnimation();
-  const faq3          = useScrollAnimation();
-  const formRef       = useScrollAnimation();
-  const contactRef    = useScrollAnimation();
+  const whyRef     = useScrollAnimation();
+  const waysTitle  = useScrollAnimation();
+  const contrib1   = useScrollAnimation();
+  const contrib2   = useScrollAnimation();
+  const contrib3   = useScrollAnimation();
+  const contrib4   = useScrollAnimation();
+  const howTitle   = useScrollAnimation();
+  const method1    = useScrollAnimation();
+  const method2    = useScrollAnimation();
+  const method3    = useScrollAnimation();
+  const method4    = useScrollAnimation();
+  const faqTitle   = useScrollAnimation();
+  const faqList    = useScrollAnimation();
+  const formRef    = useScrollAnimation();
+  const contactRef = useScrollAnimation();
 
   const scrollToForm = () => {
     formSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -133,22 +185,23 @@ const Donate = () => {
 
   const contributionTypes = [
     { icon: BookOpen, title: t('donate_page.contrib1_title'), description: t('donate_page.contrib1_desc'), impact: t('donate_page.contrib1_impact'), color: 'from-blue-500 to-blue-600', ref: contrib1, delay: 'delay-100' },
-    { icon: Monitor, title: t('donate_page.contrib2_title'), description: t('donate_page.contrib2_desc'), impact: t('donate_page.contrib2_impact'), color: 'from-green-500 to-green-600', ref: contrib2, delay: 'delay-200' },
-    { icon: Users, title: t('donate_page.contrib3_title'), description: t('donate_page.contrib3_desc'), impact: t('donate_page.contrib3_impact'), color: 'from-purple-500 to-purple-600', ref: contrib3, delay: 'delay-300' },
-    { icon: Heart, title: t('donate_page.contrib4_title'), description: t('donate_page.contrib4_desc'), impact: t('donate_page.contrib4_impact'), color: 'from-red-500 to-red-600', ref: contrib4, delay: 'delay-400' },
+    { icon: Monitor,  title: t('donate_page.contrib2_title'), description: t('donate_page.contrib2_desc'), impact: t('donate_page.contrib2_impact'), color: 'from-green-500 to-green-600', ref: contrib2, delay: 'delay-200' },
+    { icon: Users,    title: t('donate_page.contrib3_title'), description: t('donate_page.contrib3_desc'), impact: t('donate_page.contrib3_impact'), color: 'from-purple-500 to-purple-600', ref: contrib3, delay: 'delay-300' },
+    { icon: Heart,    title: t('donate_page.contrib4_title'), description: t('donate_page.contrib4_desc'), impact: t('donate_page.contrib4_impact'), color: 'from-red-500 to-red-600', ref: contrib4, delay: 'delay-400' },
   ];
 
   const donationMethods = [
     { icon: Smartphone, title: t('donate_page.method1_title'), description: t('donate_page.method1_desc'), ref: method1, delay: 'delay-100' },
     { icon: CreditCard, title: t('donate_page.method2_title'), description: t('donate_page.method2_desc'), ref: method2, delay: 'delay-200' },
-    { icon: Building, title: t('donate_page.method3_title'), description: t('donate_page.method3_desc'), ref: method3, delay: 'delay-300' },
-    { icon: Users, title: t('donate_page.method4_title'), description: t('donate_page.method4_desc'), ref: method4, delay: 'delay-400' },
+    { icon: Building,   title: t('donate_page.method3_title'), description: t('donate_page.method3_desc'), ref: method3, delay: 'delay-300' },
+    { icon: Users,      title: t('donate_page.method4_title'), description: t('donate_page.method4_desc'), ref: method4, delay: 'delay-400' },
   ];
 
   const faqs = [
-    { question: t('donate_page.faq1_q'), answer: t('donate_page.faq1_a'), ref: faq1, delay: 'delay-100' },
-    { question: t('donate_page.faq2_q'), answer: t('donate_page.faq2_a'), ref: faq2, delay: 'delay-200' },
-    { question: t('donate_page.faq3_q'), answer: t('donate_page.faq3_a'), ref: faq3, delay: 'delay-300' },
+    { question: t('donate_page.faq1_q'), answer: t('donate_page.faq1_a') },
+    { question: t('donate_page.faq2_q'), answer: t('donate_page.faq2_a') },
+    { question: t('donate_page.faq3_q'), answer: t('donate_page.faq3_a') },
+    { question: t('donate_page.faq4_q'), answer: t('donate_page.faq4_a') },
   ];
 
   return (
@@ -162,10 +215,11 @@ const Donate = () => {
         .delay-400 { transition-delay: 0.4s; }
 
         @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes pulseSlow { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.35; } }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 25% { transform: scale(1.15); } 50% { transform: scale(1); } 75% { transform: scale(1.1); } }
+        @keyframes fadeSlideUp   { from { opacity: 0; transform: translateY(24px);  } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn         { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes pulseSlow     { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.35; } }
+        @keyframes heartbeat     { 0%, 100% { transform: scale(1); } 25% { transform: scale(1.15); } 50% { transform: scale(1); } 75% { transform: scale(1.1); } }
+
         .hero-title  { animation: fadeSlideDown 0.8s ease both; }
         .hero-sub    { animation: fadeSlideUp 0.8s 0.25s ease both; }
         .hero-btn    { animation: fadeSlideUp 0.8s 0.45s ease both; }
@@ -174,29 +228,16 @@ const Donate = () => {
         .success-icon { animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both; }
 
         .hero-cta-btn {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #ffffff;
-          color: #dc2626;
-          font-weight: 700;
-          font-size: 1rem;
-          padding: 14px 32px;
-          border-radius: 12px;
-          border: 2px solid rgba(255,255,255,0.8);
+          position: relative; display: inline-flex; align-items: center; gap: 8px;
+          background: #ffffff; color: #dc2626; font-weight: 700; font-size: 1rem;
+          padding: 14px 32px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.8);
           box-shadow: 0 8px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.5);
-          transition: all 0.25s ease;
-          overflow: hidden;
-          letter-spacing: 0.01em;
+          transition: all 0.25s ease; overflow: hidden; letter-spacing: 0.01em;
         }
         .hero-cta-btn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
+          content: ''; position: absolute; inset: 0;
           background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          opacity: 0;
-          transition: opacity 0.25s ease;
+          opacity: 0; transition: opacity 0.25s ease;
         }
         .hero-cta-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 32px rgba(0,0,0,0.3), 0 0 0 3px rgba(255,255,255,0.4); color: #ffffff; border-color: #dc2626; }
         .hero-cta-btn:hover::before { opacity: 1; }
@@ -207,8 +248,7 @@ const Donate = () => {
         .contrib-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
 
         .way-card {
-          cursor: pointer;
-          border: 2px solid #bfdbfe;
+          cursor: pointer; border: 2px solid #bfdbfe;
           transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
         }
         .way-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(59,130,246,0.15); border-color: #2563eb; background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); }
@@ -217,9 +257,6 @@ const Donate = () => {
         .way-card .way-title { transition: color 0.3s ease; }
         .way-card:hover .way-title { color: #1d4ed8; }
 
-        .faq-card { transition: background 0.2s ease, transform 0.2s ease; }
-        .faq-card:hover { background: #fef2f2; transform: translateX(4px); }
-
         @keyframes kenBurns1 { 0% { opacity: 1; transform: scale(1.05); } 28% { opacity: 1; transform: scale(1.12); } 33% { opacity: 0; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.05); } }
         @keyframes kenBurns2 { 0% { opacity: 0; } 28% { opacity: 0; } 33% { opacity: 1; transform: scale(1.05); } 61% { opacity: 1; transform: scale(1.12); } 66% { opacity: 0; transform: scale(1.12); } 100% { opacity: 0; } }
         @keyframes kenBurns3 { 0% { opacity: 0; } 61% { opacity: 0; } 66% { opacity: 1; transform: scale(1.05); } 94% { opacity: 1; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.12); } }
@@ -227,39 +264,25 @@ const Donate = () => {
         .slide2 { animation: kenBurns2 12s ease-in-out infinite; }
         .slide3 { animation: kenBurns3 12s ease-in-out infinite; }
 
-        /* ── Creative section headings ── */
         .section-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #fef2f2;
-          color: #dc2626;
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.13em;
-          text-transform: uppercase;
-          padding: 5px 14px;
-          border-radius: 50px;
-          border: 1px solid #fecaca;
-          margin-bottom: 12px;
+          display: inline-flex; align-items: center; gap: 6px;
+          background: #fef2f2; color: #dc2626; font-size: 0.7rem; font-weight: 700;
+          letter-spacing: 0.13em; text-transform: uppercase; padding: 5px 14px;
+          border-radius: 50px; border: 1px solid #fecaca; margin-bottom: 12px;
         }
         .section-pill::before { content: ''; width: 6px; height: 6px; background: #dc2626; border-radius: 50%; display: inline-block; }
 
-        .heading-accent {
-          position: relative;
-          display: inline;
-          white-space: nowrap;
-        }
+        .heading-accent { position: relative; display: inline; white-space: nowrap; }
         .heading-accent::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -4px;
-          width: 100%;
-          height: 5px;
+          content: ''; position: absolute; left: 0; bottom: -4px;
+          width: 100%; height: 5px;
           background: linear-gradient(90deg, #dc2626, #f87171 60%, transparent);
           border-radius: 3px;
         }
+
+        /* ── FAQ Accordion ── */
+        .faq-accordion-item { cursor: default; }
+        .faq-accordion-item button { cursor: pointer; }
       `}</style>
 
       <div className="min-h-screen pt-20 bg-slate-50">
@@ -278,7 +301,6 @@ const Donate = () => {
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-red-900/50" />
           </div>
-
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <Heart className="w-16 h-16 mx-auto mb-6 text-pink-300 heart-beat" />
             <h1 className="text-4xl md:text-5xl font-bold mb-6 hero-title drop-shadow-lg">
@@ -294,7 +316,6 @@ const Donate = () => {
               </button>
             </div>
           </div>
-
           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-red-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pulse-blob"></div>
           <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 pulse-blob"></div>
         </section>
@@ -396,7 +417,6 @@ const Donate = () => {
                 <p className="text-gray-600 mt-5">{t('donate_page.form_subtitle')}</p>
               </div>
               <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
-
                 {submitStatus === 'success' ? (
                   <div className="text-center py-12">
                     <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm success-icon">
@@ -406,9 +426,9 @@ const Donate = () => {
                     <p className="text-gray-500 text-base">{t('donate_page.success_msg')}</p>
                     <p className="text-gray-400 text-sm mt-2">
                       {t('donate_page.success_urgent')}{' '}
-                      <a href="tel:+919657630464" className="text-red-600 font-semibold hover:underline">+91 9657630464 | +91 9527794050</a>{' '}
+                      <a href="tel:+917588869700" className="text-red-600 font-semibold hover:underline">+91 7588869700 | +91 9657630464</a>{' '}
                       {t('donate_page.success_or_email')}{' '}
-                      <a href="mailto:donations@manpadale.edu.in" className="text-red-600 font-semibold hover:underline">donations@manpadale.edu.in</a>
+                      <a href="mailto:headmaster.mhm@gmail.com" className="text-red-600 font-semibold hover:underline">headmaster.mhm@gmail.com</a>
                     </p>
                     <AutoReset key={resetKey} onReset={handleReset} />
                   </div>
@@ -527,41 +547,44 @@ const Donate = () => {
 
         {/* 6. FAQ */}
         <section className="py-16 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div ref={faqTitle as any} className="scroll-animate text-center mb-12">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div ref={faqTitle as any} className="scroll-animate text-center mb-10">
               <div className="section-pill">Got Questions?</div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
                 Everything You{' '}
                 <span className="heading-accent text-red-600">Need to Know</span>
               </h2>
+              <p className="text-gray-500 text-sm mt-4">Click any question to see the answer</p>
             </div>
-            <div className="space-y-4">
+
+            <div ref={faqList as any} className="scroll-animate space-y-3">
               {faqs.map((faq, index) => (
-                <div
+                <FaqItem
                   key={index}
-                  ref={faq.ref as any}
-                  className={`scroll-animate ${faq.delay} faq-card bg-red-50 rounded-xl p-6 border border-red-100`}
-                >
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{faq.question}</h3>
-                  <p className="text-gray-600">{faq.answer}</p>
-                </div>
+                  question={faq.question}
+                  answer={faq.answer}
+                  isOpen={openFaqIndex === index}
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                />
               ))}
             </div>
 
             <div ref={contactRef as any} className="scroll-animate mt-12 bg-gradient-to-br from-red-50 to-slate-50 rounded-2xl p-8 text-center border border-red-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.contact_title')}</h3>
-              <p className="text-gray-600 mb-6">{t('home.contact_subtitle')}</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="mailto:admissions@manpadale.edu.in" className="flex items-center justify-center px-6 py-3 bg-white rounded-xl shadow hover:shadow-lg transition-all border border-red-100">
-                  <Mail className="w-5 h-5 mr-2 text-red-600" />
-                  <span className="font-medium text-gray-900">{t('footer.email')}</span>
-                </a>
-                <a href="tel:+919657630464" className="flex items-center justify-center px-6 py-3 bg-white rounded-xl shadow hover:shadow-lg transition-all border border-red-100">
-                  <Phone className="w-5 h-5 mr-2 text-red-600" />
-                  <span className="font-medium text-gray-900">+91 9657630464 | +91 9527794050</span>
-                </a>
-              </div>
-            </div>
+  <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.contact_title')}</h3>
+  <p className="text-gray-600 mb-6">{t('home.contact_subtitle')}</p>
+  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+    <a href="mailto:headmaster.mhm@gmail.com" className="flex items-center justify-center px-8 py-4 bg-white rounded-xl shadow hover:shadow-lg transition-all border border-red-100 min-w-[280px]">
+      <Mail className="w-5 h-5 mr-2 text-red-600 flex-shrink-0" />
+      <span className="font-medium text-gray-900 whitespace-nowrap">{t('footer.email')}</span>
+    </a>
+    <a href="tel:+917588869700" className="flex items-center justify-center px-8 py-4 bg-white rounded-xl shadow hover:shadow-lg transition-all border border-red-100 min-w-[320px]">
+      <Phone className="w-5 h-5 mr-2 text-red-600 flex-shrink-0" />
+      <span className="font-medium text-gray-900 whitespace-nowrap">+91 7588869700 | +91 9657630464</span>
+    </a>
+  </div>
+</div>
+
           </div>
         </section>
 
