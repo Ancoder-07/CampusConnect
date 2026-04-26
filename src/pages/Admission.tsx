@@ -249,17 +249,82 @@ const Admission = () => {
                 </div>
               </div>
 
-              <div className="reveal-right relative group"
-                   ref={el => { if(el){const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){el.classList.add('revealed');o.unobserve(el);}},{threshold:.1});o.observe(el);} }}>
-                <div className="absolute -inset-4 border border-red-600/10 rounded-[2rem] scale-95 group-hover:scale-100 transition-transform duration-700"></div>
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                  <img
-                    src="/act3.jpeg"
-                    alt="Students"
-                    className="w-full h-[400px] object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
-                  />
-                </div>
-              </div>
+              <div
+  className="reveal-right relative"
+  ref={el => {
+    if (el) {
+      const o = new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) { el.classList.add('revealed'); o.unobserve(el); } },
+        { threshold: 0.1 }
+      );
+      o.observe(el);
+    }
+  }}
+>
+  {/* Dotted pattern layer — sits behind and bottom-right offset */}
+  <div
+    className="absolute -bottom-5 -right-5 w-full h-full rounded-2xl pointer-events-none"
+    style={{
+      backgroundImage: 'radial-gradient(circle, #fca5a5 1.5px, transparent 1.5px)',
+      backgroundSize: '12px 12px',
+      zIndex: 0,
+      opacity: 0.7,
+    }}
+  />
+
+  {/* Offset thin red border — top-left */}
+  <div
+    className="absolute pointer-events-none"
+    style={{
+      inset: 0,
+      transform: 'translate(-10px, -10px)',
+      border: '2px solid #fca5a5',
+      borderRadius: '1rem',
+      zIndex: 0,
+    }}
+  />
+
+  {/* White padding frame */}
+  <div
+    className="relative z-10 rounded-2xl p-3 bg-white"
+    style={{
+      boxShadow: '0 25px 60px -10px rgba(220,38,38,0.15), 0 10px 25px -5px rgba(0,0,0,0.08)',
+      border: '1px solid #fee2e2',
+    }}
+  >
+    {/* Image */}
+    <div className="rounded-xl overflow-hidden">
+      <img
+        src="/act3.jpeg"
+        alt="Students at Manpadale"
+        className="w-full h-[400px] object-cover block"
+      />
+    </div>
+
+    {/* Bottom red gradient overlay on image */}
+    <div
+      className="absolute bottom-3 left-3 right-3 h-24 rounded-b-xl pointer-events-none"
+      style={{
+        background: 'linear-gradient(to top, rgba(220,38,38,0.10), transparent)',
+        zIndex: 11,
+      }}
+    />
+  </div>
+
+  {/* Floating badge — bottom left of frame */}
+  <div
+    className="absolute -bottom-4 left-6 z-20 bg-white rounded-xl px-4 py-2 flex items-center gap-2"
+    style={{
+      border: '1px solid #fee2e2',
+      boxShadow: '0 4px 16px rgba(220,38,38,0.10)',
+    }}
+  >
+    <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
+    <span className="text-xs font-black text-gray-700 uppercase tracking-widest">
+      {t('admission_page.overview_label', 'Admissions')}
+    </span>
+  </div>
+</div>
             </div>
           </div>
         </section>
