@@ -505,53 +505,45 @@ const Admission = () => {
           </div>
         </section>
 
-        {/* ════════════ 5. ENQUIRY FORM ════════════ */}
-        {/* Very soft warm tint */}
-        <section className="py-14 relative overflow-hidden" style={{ background: '#fdf8ff' }}>
-          {/* Violet blob */}
-          <div className="float-a absolute top-0 left-0 w-72 h-72 rounded-full blur-[100px] opacity-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: '#ede9fe' }}></div>
-          {/* Rose blob */}
-          <div className="float-b absolute bottom-0 right-0 w-96 h-96 rounded-full blur-[120px] opacity-40 translate-x-1/3 translate-y-1/3 pointer-events-none" style={{ background: '#fce7f0' }}></div>
-          {/* Amber blob centre */}
-          <div className="float-a absolute top-1/2 left-1/2 w-60 h-60 rounded-full blur-[100px] opacity-30 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: '#fef3c7' }}></div>
+{/* ════════════ 5. ENQUIRY FORM ════════════ */}
+        <section className="py-14 bg-[#FDFCF6] relative overflow-hidden">
+          <div className="float-a absolute top-0 left-0 w-72 h-72 bg-red-50 rounded-full blur-[100px] opacity-60 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+          <div className="float-b absolute bottom-0 right-0 w-96 h-96 bg-red-50 rounded-full blur-[120px] opacity-50 translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
 
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div ref={formRef as any} className="reveal">
 
               <div className="flex items-center gap-4 mb-8">
-                <div className="grow-line h-[2px]" style={{ background: '#e05a8a' }}></div>
-                <span className="font-bold uppercase tracking-[0.4em] text-[10px]" style={{ color: '#e05a8a' }}>
+                <div className="grow-line h-[2px] bg-red-600"></div>
+                <span className="text-red-600 font-bold uppercase tracking-[0.4em] text-[10px]">
                   {t('admission_page.form_section_label', 'ENQUIRY')}
                 </span>
               </div>
 
               <div className="relative mb-8">
-                <span
-                  className="absolute -top-6 right-0 text-7xl font-black uppercase select-none pointer-events-none hidden md:block"
-                  style={{ WebkitTextStroke: '1px #fce7f0', color: 'transparent' }}
-                >
+                <span className="absolute -top-6 right-0 text-7xl font-black uppercase select-none pointer-events-none hidden md:block"
+                      style={{ WebkitTextStroke:'1px #fee2e2', color:'transparent' }}>
                   {t('admission_page.enquire_watermark', 'ENQUIRE')}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tighter relative z-10">
-                  {t('admission_page.form_title')}{' '}
-                  <span style={{ color: '#e05a8a' }}>{t('admission_page.form_title_accent', 'Enquiry')}</span>
+                  {t('admission_page.form_title')} <span className="text-red-600">{t('admission_page.form_title_accent', 'Enquiry')}</span>
                 </h2>
                 <p className="text-gray-500 text-sm font-medium mt-2 tracking-wide">{t('admission_page.form_subtitle')}</p>
               </div>
 
-              <div className="bg-white rounded-3xl shadow-2xl shadow-purple-100/60 p-8 border border-purple-50">
+              <div className="bg-white rounded-3xl shadow-2xl shadow-gray-200/60 p-8 border border-gray-100">
                 {submitStatus === 'success' ? (
                   <div className="text-center py-12">
-                    <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm success-icon" style={{ background: '#d1fae5' }}>
-                      <CheckCircle className="w-12 h-12" style={{ color: '#10b981' }} />
+                    <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm success-icon">
+                      <CheckCircle className="w-12 h-12 text-green-500" />
                     </div>
                     <h3 className="text-2xl font-black text-gray-900 mb-2">{t('admission_page.success_title')}</h3>
                     <p className="text-gray-500 text-base">{t('admission_page.success_msg')}</p>
                     <p className="text-gray-400 text-sm mt-2">
                       {t('admission_page.success_urgent')}{' '}
-                      <a href="tel:+91 7588869700" className="font-semibold hover:underline" style={{ color: '#e05a8a' }}>+91 7588869700</a>
+                      <a href="tel:+91 7588869700" className="text-red-600 font-semibold hover:underline">+91 7588869700</a>
                       {' '}{t('admission_page.success_or_email')}{' '}
-                      <a href="mailto:headmaster.mhm@gmail.com" className="font-semibold hover:underline" style={{ color: '#e05a8a' }}>headmaster.mhm@gmail.com</a>
+                      <a href="mailto:headmaster.mhm@gmail.com" className="text-red-600 font-semibold hover:underline">headmaster.mhm@gmail.com</a>
                     </p>
                     <AutoReset key={resetKey} onReset={handleReset} />
                   </div>
@@ -560,7 +552,7 @@ const Admission = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="flex items-center text-[11px] font-black text-gray-700 uppercase tracking-widest mb-2">
-                          <User className="w-3.5 h-3.5 mr-2" style={{ color: '#e05a8a' }} /> {t('admission_page.form_name_label')}
+                          <User className="w-3.5 h-3.5 mr-2 text-red-600" /> {t('admission_page.form_name_label')}
                         </label>
                         <input
                           type="text"
@@ -571,14 +563,14 @@ const Admission = () => {
                             setFormData({ ...formData, student_name: val });
                             if (errors.student_name) setErrors({ ...errors, student_name: null });
                           }}
-                          className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.student_name ? 'border-pink-400 bg-pink-50' : 'border-gray-200'}`}
+                          className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.student_name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                           placeholder={t('admission_page.form_name_placeholder')}
                         />
-                        {errors.student_name && <p className="text-xs mt-1 font-medium" style={{ color: '#e05a8a' }}>{errors.student_name}</p>}
+                        {errors.student_name && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.student_name}</p>}
                       </div>
                       <div>
                         <label className="flex items-center text-[11px] font-black text-gray-700 uppercase tracking-widest mb-2">
-                          <Mail className="w-3.5 h-3.5 mr-2" style={{ color: '#e05a8a' }} /> {t('admission_page.form_email_label')}
+                          <Mail className="w-3.5 h-3.5 mr-2 text-red-600" /> {t('admission_page.form_email_label')}
                           <span className="ml-2 text-[10px] font-normal text-gray-400 normal-case">{t('admission_page.form_email_optional')}</span>
                         </label>
                         <input
@@ -588,15 +580,15 @@ const Admission = () => {
                             setFormData({ ...formData, email: e.target.value });
                             if (errors.email) setErrors({ ...errors, email: null });
                           }}
-                          className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.email ? 'border-pink-400 bg-pink-50' : 'border-gray-200'}`}
+                          className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                           placeholder={t('admission_page.form_email_placeholder')}
                         />
-                        {errors.email && <p className="text-xs mt-1 font-medium" style={{ color: '#e05a8a' }}>{errors.email}</p>}
+                        {errors.email && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.email}</p>}
                       </div>
                     </div>
                     <div>
                       <label className="flex items-center text-[11px] font-black text-gray-700 uppercase tracking-widest mb-2">
-                        <Phone className="w-3.5 h-3.5 mr-2" style={{ color: '#e05a8a' }} /> {t('admission_page.form_phone_label')}
+                        <Phone className="w-3.5 h-3.5 mr-2 text-red-600" /> {t('admission_page.form_phone_label')}
                       </label>
                       <input
                         type="tel"
@@ -605,14 +597,14 @@ const Admission = () => {
                           setFormData({ ...formData, phone: e.target.value });
                           if (errors.phone) setErrors({ ...errors, phone: null });
                         }}
-                        className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.phone ? 'border-pink-400 bg-pink-50' : 'border-gray-200'}`}
+                        className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium ${errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('admission_page.form_phone_placeholder')}
                       />
-                      {errors.phone && <p className="text-xs mt-1 font-medium" style={{ color: '#e05a8a' }}>{errors.phone}</p>}
+                      {errors.phone && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.phone}</p>}
                     </div>
                     <div>
                       <label className="flex items-center text-[11px] font-black text-gray-700 uppercase tracking-widest mb-2">
-                        <MessageSquare className="w-3.5 h-3.5 mr-2" style={{ color: '#e05a8a' }} /> {t('admission_page.form_message_label')}
+                        <MessageSquare className="w-3.5 h-3.5 mr-2 text-red-600" /> {t('admission_page.form_message_label')}
                       </label>
                       <textarea
                         rows={4}
@@ -621,38 +613,34 @@ const Admission = () => {
                           setFormData({ ...formData, message: e.target.value });
                           if (errors.message) setErrors({ ...errors, message: null });
                         }}
-                        className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium resize-none ${errors.message ? 'border-pink-400 bg-pink-50' : 'border-gray-200'}`}
+                        className={`adm-input w-full px-4 py-3 border rounded-xl bg-gray-50 text-sm font-medium resize-none ${errors.message ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('admission_page.form_message_placeholder')}
                       />
-                      {errors.message && <p className="text-xs mt-1 font-medium" style={{ color: '#e05a8a' }}>{errors.message}</p>}
+                      {errors.message && <p className="text-red-500 text-[11px] mt-1 font-medium">{errors.message}</p>}
                     </div>
                     {submitStatus === 'error' && (
-                      <div className="text-sm px-4 py-3 rounded-xl font-medium" style={{ background: '#fef3c7', border: '1px solid #fde68a', color: '#92400e' }}>
+                      <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl font-medium">
                         {t('admission_page.form_error_msg')}
                       </div>
                     )}
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 text-[13px] font-black rounded-xl shadow-lg uppercase tracking-widest transition-colors text-white"
-                      style={{
-                        background: isSubmitting ? '#f9a8c9' : 'linear-gradient(135deg, #e05a8a 0%, #c94070 100%)',
-                        boxShadow: '0 8px 24px rgba(224,90,138,0.25)',
-                      }}
+                      className="w-full bg-red-600 hover:bg-red-700 py-4 text-[13px] font-black rounded-xl shadow-lg shadow-red-200 uppercase tracking-widest transition-colors"
                     >
                       {isSubmitting ? t('admission_page.form_submitting') : t('admission_page.form_submit_btn')}
                     </Button>
 
                     <div className="pt-5 border-t border-gray-100 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400 font-medium">
-                      <a href="tel:+917588869700" className="flex items-center gap-1.5 transition-colors hover:text-teal-600">
+                      <a href="tel:+917588869700" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                         <Phone className="w-3.5 h-3.5" /> +91 7588869700
                       </a>
                       <span className="text-gray-200">|</span>
-                      <a href="tel:+919657630464" className="flex items-center gap-1.5 transition-colors hover:text-teal-600">
+                      <a href="tel:+919657630464" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                         <Phone className="w-3.5 h-3.5" /> +91 9657630464
                       </a>
                       <span className="text-gray-200">|</span>
-                      <a href="mailto:headmaster.mhm@gmail.com" className="flex items-center gap-1.5 transition-colors hover:text-teal-600">
+                      <a href="mailto:headmaster.mhm@gmail.com" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                         <Mail className="w-3.5 h-3.5" /> headmaster.mhm@gmail.com
                       </a>
                     </div>
